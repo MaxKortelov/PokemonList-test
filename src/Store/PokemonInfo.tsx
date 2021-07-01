@@ -1,5 +1,5 @@
 import {action, makeAutoObservable, observable} from 'mobx';
-import axios from "axios";
+import axios from 'axios';
 
 interface IPokemonList {
     count: number,
