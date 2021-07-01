@@ -1,14 +1,16 @@
 import React, {FC, useState} from 'react';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import {makeStyles, createStyles, Theme} from '@material-ui/core';
-
+import {
+    makeStyles,
+    createStyles,
+    Theme,
+    TextField,
+    Select,
+    MenuItem,
+    FormControl,
+    Button,
+} from '@material-ui/core';
 import store from '../../Store/PokemonInfo';
-
-import styles from './FilterPannel.module.sass';
+import styles from './FilterPanel.module.sass';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,11 +33,12 @@ const useStyles = makeStyles((theme: Theme) =>
         input: {
             minWidth: '300px',
             width: '300px',
+            padding: '5px 0 5px 10px',
         },
-    }),
+    })
 );
 
-const FilterPannel : FC = () => {
+const FilterPanel : FC = () => {
 
     const classes = useStyles();
 
@@ -73,7 +76,8 @@ const FilterPannel : FC = () => {
                 placeholder='Search'
                 variant='standard'
                 size='small'
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+            />
             <Button
                 variant='contained'
                 color='primary'
@@ -83,4 +87,4 @@ const FilterPannel : FC = () => {
     )
 }
 
-export default FilterPannel;
+export default FilterPanel;

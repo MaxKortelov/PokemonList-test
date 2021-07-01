@@ -4,13 +4,13 @@ import store from '../../Store/PokemonInfo';
 
 import styles from './Header.module.sass';
 
-import FilterPannel from '../FilterPannel';
+import FilterPanel from '../FilterPanel';
 
 const Header: FC = observer(() => {
     return(
         <div className={styles.headerWrap}>
             {!store.entered ? <div className={styles.welcomeText}>WELCOME TO POKEMON LIST WEBSITE</div> : null}
-            {store.entered ? <FilterPannel /> : null}
+            {store.entered ? <FilterPanel /> : null}
         </div>
     )
 })
