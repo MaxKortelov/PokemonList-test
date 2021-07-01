@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 
 import styles from './App.module.sass';
 import DevTools from 'mobx-react-devtools';
@@ -8,14 +8,14 @@ import Main from './Components/Main';
 
 
 
-function App() {
+const App : FC = () => {
 
   return (
       <div className={styles.wrap}>
           <Header />
           <Main />
+          <Loader />
           <DevTools />
-          {false && <Loader />}
       </div>
   );
 }

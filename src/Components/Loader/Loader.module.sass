@@ -24,8 +24,21 @@
     transform: translate3d(0,-4px,0) scaleY(1.02)
 
 @keyframes disappear
+  0%
+    display: flex
+  99%
+    display: flex
   100%
     opacity: 0
+    display: none
+
+@keyframes appear
+  0%
+    opacity: 0
+  50%
+    opacity: 0
+  100%
+    opacity: 1
 
 .loaderWrap
   display: flex
@@ -39,11 +52,16 @@
   height: 100vh
   min-height: 100vh
   background: rgba(7, 7, 7, 0.9)
+
 .bounce
   animation: bounce 1000ms infinite
 
 .disappear
-  animation: disappear 1000ms infinite
+  display: none
+  animation: disappear 1000ms ease-in-out
+
+.appear
+  animation: appear 2000ms ease-in-out
 
 $size: 250px
 

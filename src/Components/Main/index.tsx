@@ -7,6 +7,7 @@ import {observer} from 'mobx-react';
 const Main : FC = observer(() => {
 
     const getPokemon = () => {
+
         store.addPokemon();
         store.toggleEntered(true);
     };
