@@ -36,6 +36,9 @@ class Pokemon{
     }
 
     @action
+    removePokemon() {this.pokemonList = {}}
+
+    @action
     toggleEntered(boolean: boolean) {this.entered = boolean};
 
     @action

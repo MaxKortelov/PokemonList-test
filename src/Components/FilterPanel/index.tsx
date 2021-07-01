@@ -47,7 +47,10 @@ const FilterPanel : FC = observer(() => {
         setValue(event.target.value as string);
     };
 
-    const handleExitClick = () => {store.toggleEntered(false)};
+    const handleExitClick = () => {
+        store.toggleEntered(false);
+        store.removePokemon();
+    };
 
     return (
         <div className={styles.filterPanelWrap}>
