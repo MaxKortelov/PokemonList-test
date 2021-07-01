@@ -1,12 +1,18 @@
 import React from 'react';
-import './App.sass';
+
+import styles from './App.module.sass';
 import DevTools from 'mobx-react-devtools';
+import Loader from './Components/Loader';
+import Header from './Components/Header';
+
+
 
 function App() {
   return (
-      <div>
+      <div className={styles.wrap}>
           <DevTools />
-        123
+          {false && <Loader />}
+          <Header />
       </div>
   );
 }
