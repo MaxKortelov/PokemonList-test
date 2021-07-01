@@ -33,10 +33,13 @@ class Pokemon{
     }
 
     @action
-    toggleEntered(boolean: boolean) {this.entered = boolean}
+    toggleEntered(boolean: boolean) {this.entered = boolean};
 
     @action
-    toggleLoading(boolean: boolean) {this.loading = boolean}
+    toggleLoading(boolean: boolean) {this.loading = boolean};
+
+    @action
+    setItemsPerPage(value: string) {this.itemsPerPage = value};
 }
 
 export default new Pokemon();

@@ -1,4 +1,5 @@
 import React, {FC, useState} from 'react';
+import {observer} from 'mobx-react';
 import {
     makeStyles,
     createStyles,
@@ -38,16 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const FilterPanel : FC = () => {
+const FilterPanel : FC = observer(() => {
 
     const classes = useStyles();
 
-    const [age, setAge] = useState('10');
     const [value, setValue] = useState('');
 
-    const handleItemsPerPageChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
-    };
+    const handleItemsPerPageChange = (event: React.ChangeEvent<{ value: unknown }>) => {store.setItemsPerPage(event.target.value as string)};
 
     const handleInputChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setValue(event.target.value as string);
@@ -61,7 +59,7 @@ const FilterPanel : FC = () => {
                 <span className={styles.name}>Items per Page</span>
                 <FormControl>
                     <Select
-                        value={age}
+                        value={store.itemsPerPage}
                         onChange={handleItemsPerPageChange}
                     >
                         <MenuItem value={10}>10</MenuItem>
@@ -85,6 +83,6 @@ const FilterPanel : FC = () => {
             >Exit</Button>
         </div>
     )
-}
+})
 
 export default FilterPanel;
