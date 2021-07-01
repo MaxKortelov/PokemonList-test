@@ -25,6 +25,6 @@
     "src"
   ],
   "exclude": [
-    "node_modules", "src/assets"
+    "node_modules", "src/assets", "src/fonts"
   ]
 }

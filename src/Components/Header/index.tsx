@@ -9,7 +9,7 @@ import FilterPannel from '../FilterPannel';
 const Header: FC = observer(() => {
     return(
         <div className={styles.headerWrap}>
-            {!store.entered ? <div>WELCOME TO POKEMON LIST WEBSITE</div> : null}
+            {!store.entered ? <div className={styles.welcomeText}>WELCOME TO POKEMON LIST WEBSITE</div> : null}
             {store.entered ? <FilterPannel /> : null}
         </div>
     )
