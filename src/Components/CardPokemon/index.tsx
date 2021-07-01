@@ -1,9 +1,14 @@
 import React, {FC, useEffect, useState} from 'react';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import {
+    createStyles,
+    makeStyles,
+    Theme,
+    Card,
+    CardActionArea,
+    CardContent,
+    CardMedia,
+    Typography,
+} from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import styles from './CardPokemon.module.sass';
@@ -33,7 +38,20 @@ interface IPokemon {
     ]
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            minWidth: '100%',
+            width: '100%',
+            minHeight: '100%',
+            height: '100%',
+        },
+    })
+);
+
 const CardPokemon : FC<ICard> = ({info}) => {
+
+    const classes = useStyles();
 
     const [loading, setLoading] = useState(true);
     const [pokemon, setPokemon] = useState<IPokemon | {}>({});
@@ -53,12 +71,12 @@ const CardPokemon : FC<ICard> = ({info}) => {
     const renderTypes = () => {
         return 'types' in pokemon ? pokemon.types.map(type => {
             return <div className={styles.type}>{type.type.name[0].toUpperCase() + type.type.name.substring(1)}</div>
-        }) : null;
+        }) : <Skeleton animation='wave' width='100%' />;
     };
 
     return(
         <div className={styles.cardListWrap}>
-            <Card>
+            <Card className={classes.root} >
                 <CardActionArea>
                     {loading
                     ? <Skeleton variant="rect" width="100%">

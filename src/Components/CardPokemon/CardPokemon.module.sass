@@ -1,9 +1,21 @@
+@keyframes appear
+  0%
+    opacity: 0
+  100%
+    opacity: 1
 .cardListWrap
   display: flex
-  max-width: 300px
+  max-width: 250px
+  min-width: 250px
+  width: 250px
+  min-height: 227px
   margin: 10px
+  animation: appear 0.2s linear
   .typesWrap
     display: flex
     flex-wrap: wrap
     .type
+      background: darkseagreen
+      padding: 2px 10px
+      border-radius: 30px
       margin: 0 5px
