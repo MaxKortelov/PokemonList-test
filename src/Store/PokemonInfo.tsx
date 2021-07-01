@@ -5,11 +5,11 @@ interface IPokemonList {
     count: number,
     next: string,
     previous: string,
-    results: object
-}
+    results: object[]
+};
 
 class Pokemon{
-    @observable pokemonList?: IPokemonList | {} = {};
+    @observable pokemonList: IPokemonList | {} = {};
     @observable entered: boolean = false;
     @observable itemsPerPage: string = '10';
     @observable loading: boolean = false;
