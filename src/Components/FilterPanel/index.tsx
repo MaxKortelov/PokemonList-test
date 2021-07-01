@@ -25,11 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: theme.transitions.create(['border-color', 'box-shadow']),
             '&:hover': {
                 backgroundColor: '#fff',
-            },
-            '&$focused': {
-                backgroundColor: '#fff',
-                borderColor: theme.palette.primary.main,
-            },
+            }
         },
         input: {
             minWidth: '300px',

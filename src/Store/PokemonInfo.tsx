@@ -5,13 +5,14 @@ interface IPokemonList {
     count: number,
     next: string,
     previous: string,
-    results: object[]
+    results: []
 };
 
 class Pokemon{
     @observable pokemonList: IPokemonList | {} = {};
     @observable entered: boolean = false;
     @observable itemsPerPage: string = '10';
+    @observable shownPokemons: string = '0'
     @observable loading: boolean = false;
 
     constructor() {
@@ -20,12 +21,13 @@ class Pokemon{
 
     @action
     addPokemon() {
-        const url = `https://pokeapi.co/api/v2/pokemon/?limit=${this.itemsPerPage}&offset=${this.itemsPerPage}`
+        const url = `https://pokeapi.co/api/v2/pokemon/?limit=${this.itemsPerPage}&offset=${this.shownPokemons}`
         this.toggleLoading(true);
         axios.get(url)
             .then(res => {
                 if(res.status === 200) {
-                    this.pokemonList = {...res.data};
+                    this.pokemonList = res.data;
+                    this.shownPokemons = String(Number(this.shownPokemons) + Number(this.itemsPerPage))
                 }
             })
             .catch(err => console.log(err))

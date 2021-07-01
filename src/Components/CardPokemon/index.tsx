@@ -7,10 +7,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import styles from './Card.module.sass';
+import styles from './CardPokemon.module.sass';
 
 interface ICard {
-    info: object,
+    info: {
+        name: string,
+        url: string,
+    },
 }
 
 const CardPokemon : FC<ICard> = ({info}) => {
@@ -22,7 +25,7 @@ const CardPokemon : FC<ICard> = ({info}) => {
                         component="img"
                         alt="Contemplative Reptile"
                         height="140"
-                        image=""
+                        image="./assets/preview.png"
                         title="Contemplative Reptile"
                     />
                     <CardContent>

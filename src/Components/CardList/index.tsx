@@ -3,13 +3,16 @@ import store from '../../Store/PokemonInfo';
 import {observer} from 'mobx-react';
 
 import styles from './CardList.module.sass';
-import Card from '../Card';
+import CardPokemon from '../CardPokemon';
 
 const CardList : FC = observer(() => {
 
     const renderCards = () => {
-        return "results" in store.pokemonList ? store.pokemonList.results.map(pokemon => {
-            return <Card/>
+        return "results" in store.pokemonList ? store.pokemonList.results.map((pokemon, index) => {
+            return <CardPokemon
+                info={pokemon}
+                key={index}
+            />
         }) : null;
     }
 

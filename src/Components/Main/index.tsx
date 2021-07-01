@@ -3,6 +3,7 @@ import store from '../../Store/PokemonInfo'
 
 import styles from './Main.module.sass';
 import {observer} from 'mobx-react';
+import CardList from '../CardList';
 
 const Main : FC = observer(() => {
 
@@ -18,7 +19,7 @@ const Main : FC = observer(() => {
                 className={styles.enterButton}
                 onClick={getPokemon}
             >Get Pokemon</div> : null}
-            {store.entered ? <div>123</div> : null}
+            {store.entered ? <CardList /> : null}
         </div>
     )
 })
