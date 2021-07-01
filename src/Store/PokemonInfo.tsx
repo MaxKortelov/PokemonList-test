@@ -14,6 +14,7 @@ class Pokemon{
     @observable itemsPerPage: string = '10';
     @observable shownPokemons: string = '0'
     @observable loading: boolean = false;
+    @observable page: number = 1;
 
     constructor() {
         makeAutoObservable(this)
@@ -27,7 +28,7 @@ class Pokemon{
             .then(res => {
                 if(res.status === 200) {
                     this.pokemonList = res.data;
-                    this.shownPokemons = String(Number(this.shownPokemons) + Number(this.itemsPerPage))
+                    this.shownPokemons = String(Number(this.itemsPerPage) * this.page - Number(this.itemsPerPage))
                 }
             })
             .catch(err => console.log(err))
