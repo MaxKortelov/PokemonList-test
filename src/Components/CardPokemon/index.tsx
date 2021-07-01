@@ -13,30 +13,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 import styles from './CardPokemon.module.sass';
 import axios from 'axios';
-
-interface ICard {
-    info: {
-        name: string,
-        url: string,
-    },
-}
-
-interface IPokemon {
-    sprites: {
-        other: {
-            'official-artwork': {
-                'front_default': string
-            }
-        }
-    },
-    types: [
-        {
-            type: {
-                name: string
-            }
-        }
-    ]
-}
+import {ICard, IPokemon} from '../../Interfaces';
+import PokemonDetails from '../PokemonDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,6 +33,7 @@ const CardPokemon : FC<ICard> = ({info}) => {
 
     const [loading, setLoading] = useState(true);
     const [pokemon, setPokemon] = useState<IPokemon | {}>({});
+    const [details, setDetails] = useState(false);
 
     useEffect(() => {
         axios.get(info.url)
@@ -74,31 +53,44 @@ const CardPokemon : FC<ICard> = ({info}) => {
         }) : <Skeleton animation='wave' width='100%' />;
     };
 
+    const handleClickCard = () => {
+        if(!loading) setDetails(true);
+    }
+
     return(
-        <div className={styles.cardListWrap}>
-            <Card className={classes.root} >
-                <CardActionArea>
-                    {loading
-                    ? <Skeleton variant="rect" width="100%">
-                        <div style={{ paddingTop: '57%' }} />
-                    </Skeleton>
-                    : <CardMedia
-                        component='img'
-                        alt='Pokemon'
-                        height='140'
-                        image={'sprites' in pokemon ? pokemon.sprites.other['official-artwork']['front_default'] : ''}
-                    />}
-                    <CardContent>
-                        <Typography gutterBottom variant='h5' component='h2'>
-                            {info.name.toUpperCase()}
-                        </Typography>
-                        <div className={styles.typesWrap}>
-                            {renderTypes()}
-                        </div>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </div>
+        <>
+            <div className={styles.cardListWrap}>
+                <Card
+                    className={classes.root}
+                    onClick={handleClickCard}
+                >
+                    <CardActionArea>
+                        {loading
+                        ? <Skeleton variant='rect' width='100%'>
+                            <div style={{ paddingTop: '57%' }} />
+                        </Skeleton>
+                        : <CardMedia
+                            component='img'
+                            alt='Pokemon'
+                            height='140'
+                            image={'sprites' in pokemon ? pokemon.sprites.other['official-artwork']['front_default'] : ''}
+                        />}
+                        <CardContent>
+                            <Typography gutterBottom variant='h5' component='h2'>
+                                {info.name.toUpperCase()}
+                            </Typography>
+                            <div className={styles.typesWrap}>
+                                {renderTypes()}
+                            </div>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </div>
+            {details ? <PokemonDetails
+                pokemon={pokemon}
+                close={setDetails}
+            /> : null}
+        </>
     )
 }
 

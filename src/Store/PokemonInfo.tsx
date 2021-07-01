@@ -1,12 +1,6 @@
 import {action, makeAutoObservable, observable} from 'mobx';
 import axios from 'axios';
-
-interface IPokemonList {
-    count: number,
-    next: string,
-    previous: string,
-    results: []
-};
+import { IPokemonList } from '../Interfaces';
 
 class Pokemon{
     @observable pokemonList: IPokemonList | {} = {};
