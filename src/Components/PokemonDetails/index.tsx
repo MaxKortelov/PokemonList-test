@@ -31,18 +31,18 @@ const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
             <div className={styles.detailsWrap}>
                 <div className={styles.headerWrap}>
                     <span className={styles.cross} onClick={onClose} />
-                    <img
+                    {'sprites' in pokemon ? pokemon.sprites.front_default ? <img
                         src={'sprites' in pokemon ? pokemon.sprites.front_default : ''}
                         alt=''
                         onMouseOver={showBigPreview}
                         onMouseLeave={hideBigPreview}
-                    />
-                    <img
+                    /> : null : null}
+                    {'sprites' in pokemon ? pokemon.sprites.back_default ? <img
                         src={'sprites' in pokemon ? pokemon.sprites.back_default : ''}
                         alt=''
                         onMouseOver={showBigPreview}
                         onMouseLeave={hideBigPreview}
-                    />
+                    /> : null : null}
                 </div>
                 <h2 className={styles.title}>{'name' in info ? info.name.toUpperCase() : ''}</h2>
                 <div className={styles.paramsWrap}>
@@ -56,11 +56,18 @@ const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
                     </div>
                 </div>
             </div>
-            {showPreview ? <div className={styles.bigPreviewWrap}><img
-                className={styles.bigPreview}
-                src={'sprites' in pokemon ? pokemon.sprites.other['dream_world']['front_default'] : ''}
-                alt={'sprites' in pokemon ? pokemon.sprites.other['official-artwork']['front_default'] : ''}
-            /></div> : null}
+            {showPreview ? <div className={styles.bigPreviewWrap}>
+                {'sprites' in pokemon ? pokemon.sprites.other['dream_world']['front_default']
+                    ? <img
+                        className={styles.bigPreview}
+                        src={'sprites' in pokemon ? pokemon.sprites.other['dream_world']['front_default'] : ''}
+                        alt=''
+                    />
+                    : <img
+                        className={styles.bigPreview}
+                        src={'sprites' in pokemon ? pokemon.sprites.other['official-artwork']['front_default'] : ''}
+                        alt=''
+                    /> : null}</div> : null}
         </div>
     )
 }
