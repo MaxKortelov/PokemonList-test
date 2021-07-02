@@ -6,9 +6,9 @@ class Pokemon{
     @observable pokemonList: IPokemonList | {} = {};
     @observable entered: boolean = false;
     @observable itemsPerPage: string = '20';
-    @observable shownPokemons: string = '0'
     @observable loading: boolean = false;
-    @observable page: number = 1;
+    @observable page: number = 0;
+
 
     constructor() {
         makeAutoObservable(this)
@@ -16,13 +16,12 @@ class Pokemon{
 
     @action
     addPokemon() {
-        const url = `https://pokeapi.co/api/v2/pokemon/?limit=${this.itemsPerPage}&offset=${this.shownPokemons}`
+        const url = `https://pokeapi.co/api/v2/pokemon/?limit=${this.itemsPerPage}&offset=${this.page * Number(this.itemsPerPage)}`
         this.toggleLoading(true);
         axios.get(url)
             .then(res => {
                 if(res.status === 200) {
                     this.pokemonList = res.data;
-                    this.shownPokemons = String(Number(this.itemsPerPage) * this.page - Number(this.itemsPerPage))
                 }
             })
             .catch(err => console.log(err))
@@ -40,6 +39,9 @@ class Pokemon{
 
     @action
     setItemsPerPage(value: string) {this.itemsPerPage = value};
+
+    @action
+    setPage(page: number) {this.page = page}
 }
 
 export default new Pokemon();
