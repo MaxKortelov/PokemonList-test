@@ -1,7 +1,4 @@
 .pokemonDetailsWrap
-  display: flex
-  justify-content: center
-  align-items: center
   position: absolute
   top: 0
   left: 0
@@ -16,7 +13,93 @@
     z-index: 5
   .detailsWrap
     width: 500px
-    height: 400px
+    height: 600px
     background: white
     border-radius: 30px
+    position: absolute
+    left: calc(50vw - 250px)
+    top: calc(50vh - 300px)
     z-index: 6
+    .headerWrap
+      display: flex
+      justify-content: center
+      padding: 30px 0 0 0
+      position: relative
+      .cross
+        position: absolute
+        top: 25px
+        right: 15px
+        width: 16px
+        height: 2px
+        background: #a7a4a4
+        transform: rotate(45deg)
+        cursor: pointer
+      .cross:before
+        content: ''
+        position: absolute
+        top: 0
+        right: 0
+        width: 16px
+        height: 2px
+        background: #a7a4a4
+        transform: rotate(90deg)
+      img
+        width: 100px
+    .title
+      display: flex
+      justify-content: center
+      width: 100%
+    .paramsWrap
+      display: flex
+      flex-direction: column
+      align-items: center
+      overflow: scroll
+      height: 370px
+      .tableRow
+        display: flex
+        width: 95%
+        min-height: max-content
+        height: max-content
+        transition: background-color 0.1s ease-in-out
+        cursor: default
+        &:hover
+          background-color: rgba(157, 0, 255, 0.24)
+          transition: background-color 0.8s ease-in-out
+        .tableCellTitle
+          display: flex
+          justify-content: center
+          align-items: center
+          width: 35%
+          min-height: max-content
+          border: 1px solid rgba(0, 0, 0, 0.62)
+        .tableCellDescription
+          display: flex
+          flex-wrap: wrap
+          width: 65%
+          min-height: max-content
+          border: 1px solid rgba(0, 0, 0, 0.62)
+          border-left: none
+          div
+            margin: 3px 4px
+            padding: 2px 3px
+            border-radius: 30px
+          .listItem
+            background-color: rgba(240, 253, 69, 0.76)
+          .listStats
+            background-color: rgba(232, 86, 19, 0.58)
+  .bigPreviewWrap
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 500px
+    height: 600px
+    background: rgba(0, 0, 0, 0.71)
+    border-radius: 30px
+    position: absolute
+    left: calc(50vw - 250px)
+    top: calc(50vh - 300px)
+    z-index: 10
+    .bigPreview
+      max-width: 98%
+      width: 450px
+      max-height: 550px

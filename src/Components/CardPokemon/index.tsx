@@ -41,15 +41,14 @@ const CardPokemon : FC<ICard> = ({info}) => {
                 if(res.status === 200) {
                     setPokemon(res.data);
                     setLoading(false);
-                    console.log(res.data);
                 }
             })
             .catch(err => console.log(err))
     }, [info.url]);
 
     const renderTypes = () => {
-        return 'types' in pokemon ? pokemon.types.map(type => {
-            return <div className={styles.type}>{type.type.name[0].toUpperCase() + type.type.name.substring(1)}</div>
+        return 'types' in pokemon ? pokemon.types.map((type, index) => {
+            return <div className={styles.type} key={index}>{type.type.name[0].toUpperCase() + type.type.name.substring(1)}</div>
         }) : <Skeleton animation='wave' width='100%' />;
     };
 
@@ -88,6 +87,7 @@ const CardPokemon : FC<ICard> = ({info}) => {
             </div>
             {details ? <PokemonDetails
                 pokemon={pokemon}
+                info={info}
                 close={setDetails}
             /> : null}
         </>

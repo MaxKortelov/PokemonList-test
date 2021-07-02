@@ -5,7 +5,7 @@ import { IPokemonList } from '../Interfaces';
 class Pokemon{
     @observable pokemonList: IPokemonList | {} = {};
     @observable entered: boolean = false;
-    @observable itemsPerPage: string = '10';
+    @observable itemsPerPage: string = '20';
     @observable shownPokemons: string = '0'
     @observable loading: boolean = false;
     @observable page: number = 1;
