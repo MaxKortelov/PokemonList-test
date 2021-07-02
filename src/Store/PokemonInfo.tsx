@@ -8,11 +8,12 @@ class Pokemon{
     @observable itemsPerPage: string = '20';
     @observable loading: boolean = false;
     @observable page: number = 0;
+    @observable fullListPokemon: [{ name: string; url: string; }] | [] = [];
 
 
     constructor() {
         makeAutoObservable(this)
-    }
+    };
 
     @action
     addPokemon() {
@@ -25,11 +26,14 @@ class Pokemon{
                 }
             })
             .catch(err => console.log(err))
-            .finally(() => this.toggleLoading(false));
-    }
+            .finally(() => {
+                this.toggleLoading(false);
+                if(this.fullListPokemon.length === 0) this.getFullListNames();
+            });
+    };
 
     @action
-    removePokemon() {this.pokemonList = {}}
+    removePokemon() {this.pokemonList = {}};
 
     @action
     toggleEntered(boolean: boolean) {this.entered = boolean};
@@ -41,7 +45,20 @@ class Pokemon{
     setItemsPerPage(value: string) {this.itemsPerPage = value};
 
     @action
-    setPage(page: number) {this.page = page}
+    setPage(page: number) {this.page = page};
+
+    @action
+    getFullListNames() {
+        this.toggleLoading(true);
+        axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${'count' in this.pokemonList ? this.pokemonList.count : 0}`)
+            .then(res => {
+               this.fullListPokemon = res.data;
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                this.toggleLoading(false);
+            });
+    };
 }
 
 export default new Pokemon();

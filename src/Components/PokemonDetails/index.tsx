@@ -6,7 +6,6 @@ import {IPokemonDetails} from '../../Interfaces';
 const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
 
     const onClose = () => {close(false)}
-    console.log(pokemon)
 
     const [showPreview, setShowPreview] = useState(false);
 

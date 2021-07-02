@@ -9,7 +9,6 @@ import Footer from './Components/Footer';
 
 
 const App : FC = () => {
-
   return (
       <div className={styles.wrap}>
           <Header />

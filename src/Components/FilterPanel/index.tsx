@@ -45,6 +45,7 @@ const FilterPanel : FC = observer(() => {
 
     const handleInputChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setValue(event.target.value as string);
+        console.log(event.target.value);
     };
 
     const handleExitClick = () => {

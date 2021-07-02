@@ -16,6 +16,7 @@ const Footer : FC = observer(() => {
         store.addPokemon();
     };
 
+    if(!store.entered || ('results' in store.pokemonList ? store.pokemonList.results.length === 0 : true)) return null;
     return(
         <div className={styles.footerWrap}>
             <TablePagination
