@@ -10,7 +10,8 @@ class Pokemon{
     @observable page: number = 0;
     @observable fullListPokemon: [{ name: string; url: string; }] | [] = [];
     @observable isSearched : boolean = false;
-
+    @observable typeList : Array<{name: string, url: string}> | [] = [];
+    @observable isTypes : boolean = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -66,8 +67,22 @@ class Pokemon{
             .catch(err => console.log(err))
             .finally(() => {
                 this.toggleLoading(false);
+                this.getTypeList();
             });
     };
+
+    @action
+    getTypeList() {
+        this.toggleLoading(true);
+        axios.get(`https://pokeapi.co/api/v2/type/`)
+            .then(res => {
+                this.typeList = res.data.results;
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                this.toggleLoading(false);
+            });
+    }
 }
 
 export default new Pokemon();

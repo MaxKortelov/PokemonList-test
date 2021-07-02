@@ -9,6 +9,10 @@ import {
     MenuItem,
     FormControl,
     Button,
+    InputLabel,
+    Checkbox,
+    ListItemText,
+    Input,
 } from '@material-ui/core';
 import store from '../../Store/PokemonInfo';
 import styles from './FilterPanel.module.sass';
@@ -33,6 +37,12 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '300px',
             padding: '5px 0 5px 10px',
         },
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+            width: 300,
+            maxWidth: 300,
+        },
     })
 );
 
@@ -41,10 +51,6 @@ const FilterPanel : FC = observer(() => {
     const classes = useStyles();
 
     const [value, setValue] = useState('');
-
-    const handleItemsPerPageChange = (event: React.ChangeEvent<{ value: unknown }>) => {store.setItemsPerPage(event.target.value as string)};
-
-
 
     const search = () => {
         if(value.length > 0) {
@@ -66,18 +72,45 @@ const FilterPanel : FC = observer(() => {
         store.removePokemon();
     };
 
+    const [typeName, setTypeName] = useState<string[]>([]);
+    const renderTypes = () => (
+        store.typeList.map((type, index) => (
+            <MenuItem key={index} value={type.name}>
+                <Checkbox checked={typeName.indexOf(type.name) > -1}/>
+                <ListItemText primary={type.name.toUpperCase()}/>
+            </MenuItem>
+        ))
+    );
+    const handleTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setTypeName(event.target.value as string[]);
+    };
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
+
     return (
         <div className={styles.filterPanelWrap}>
             <div className={styles.itemsQuantityWrap}>
-                <span className={styles.name}>Items per Page</span>
-                <FormControl>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-mutiple-checkbox-label">Types</InputLabel>
                     <Select
-                        value={store.itemsPerPage}
-                        onChange={handleItemsPerPageChange}
+                        labelId="demo-mutiple-checkbox-label"
+                        id="demo-mutiple-checkbox"
+                        multiple
+                        value={typeName}
+                        onChange={handleTypeChange}
+                        input={<Input />}
+                        renderValue={(selected) => (selected as string[]).join(', ')}
+                        MenuProps={MenuProps}
                     >
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={20}>20</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
+                        {renderTypes()}
                     </Select>
                 </FormControl>
             </div>
