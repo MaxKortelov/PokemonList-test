@@ -72,7 +72,7 @@ const CardPokemon : FC<ICard> = ({info}) => {
                             component='img'
                             alt='Pokemon'
                             height='140'
-                            image={'sprites' in pokemon ? pokemon.sprites.other['official-artwork']['front_default'] : ''}
+                            image={'sprites' in pokemon ? pokemon.sprites.other['official-artwork']['front_default'] ? pokemon.sprites.other['official-artwork']['front_default'] : './assets/preview.jpeg' : ''}
                         />}
                         <CardContent>
                             <Typography gutterBottom variant='h5' component='h2'>
