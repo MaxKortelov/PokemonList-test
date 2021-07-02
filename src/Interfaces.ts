@@ -2,7 +2,7 @@ export interface IPokemonList {
     count: number,
     next: string,
     previous: string,
-    results: []
+    results: [] | Array<{name: string; url: string}>
 }
 
 export interface ICard {

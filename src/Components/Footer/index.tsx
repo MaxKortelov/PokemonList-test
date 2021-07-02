@@ -9,14 +9,14 @@ const Footer : FC = observer(() => {
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         store.setPage(newPage);
-        store.addPokemon();
+        store.addPokemon(null);
     };
     const handleItemsPerPageChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         store.setItemsPerPage(event.target.value as string);
-        store.addPokemon();
+        store.addPokemon(null);
     };
 
-    if(!store.entered || ('results' in store.pokemonList ? store.pokemonList.results.length === 0 : true)) return null;
+    if(!store.entered || ('results' in store.pokemonList ? store.pokemonList.results.length === 0 : true) || store.isSearched) return null;
     return(
         <div className={styles.footerWrap}>
             <TablePagination

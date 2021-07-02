@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
     makeStyles,
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import store from '../../Store/PokemonInfo';
 import styles from './FilterPanel.module.sass';
+import {useDebounce} from '../../Hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,9 +44,21 @@ const FilterPanel : FC = observer(() => {
 
     const handleItemsPerPageChange = (event: React.ChangeEvent<{ value: unknown }>) => {store.setItemsPerPage(event.target.value as string)};
 
+
+
+    const search = () => {
+        if(value.length > 0) {
+            const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(value.toLowerCase())) || undefined;
+            store.addPokemon(searchList);
+        } else {store.addPokemon(null)}
+    };
+
+    const debouncedValue = useDebounce<string>(value, 500);
+
+    useEffect(search, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
     const handleInputChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setValue(event.target.value as string);
-        console.log(event.target.value);
     };
 
     const handleExitClick = () => {

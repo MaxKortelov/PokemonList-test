@@ -8,8 +8,7 @@ import CardList from '../CardList';
 const Main : FC = observer(() => {
 
     const getPokemon = () => {
-
-        store.addPokemon();
+        store.addPokemon(null);
         store.toggleEntered(true);
     };
 
