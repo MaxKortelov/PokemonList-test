@@ -36,14 +36,19 @@ const CardPokemon : FC<ICard> = ({info}) => {
     const [details, setDetails] = useState(false);
 
     useEffect(() => {
-        axios.get(info.url)
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        axios.get(info.url, {
+            cancelToken: source.token
+        })
             .then(res => {
                 if(res.status === 200) {
                     setPokemon(res.data);
                     setLoading(false);
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
+        return () => {source.cancel()};
     }, [info.url]);
 
     const renderTypes = () => {
