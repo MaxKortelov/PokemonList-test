@@ -34,7 +34,9 @@ const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
                         src={'sprites' in pokemon ? pokemon.sprites.front_default : ''}
                         alt=''
                         onMouseOver={showBigPreview}
+                        onTouchStart={showBigPreview}
                         onMouseLeave={hideBigPreview}
+                        onTouchEnd={hideBigPreview}
                     /> : null : null}
                     {'sprites' in pokemon ? pokemon.sprites.back_default ? <img
                         src={'sprites' in pokemon ? pokemon.sprites.back_default : ''}
