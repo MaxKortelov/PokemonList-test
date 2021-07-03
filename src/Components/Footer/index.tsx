@@ -45,6 +45,7 @@ const Footer : FC = observer(() => {
                 rowsPerPageOptions={[10, 20, 50]}
                 rowsPerPage={Number(store.itemsPerPage)}
                 onChangeRowsPerPage={handleItemsPerPageChange}
+                labelRowsPerPage=''
             />
         </div>
     )
