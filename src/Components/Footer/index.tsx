@@ -21,8 +21,10 @@ const Footer : FC = observer(() => {
     };
     const handleItemsPerPageChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         if(store.isSearched || store.isTypes) {
+            store.setPage(0);
             store.setItemsPerPage(event.target.value as string);
         } else {
+            store.setPage(0);
             store.setItemsPerPage(event.target.value as string);
             store.addPokemon(null);
         }
