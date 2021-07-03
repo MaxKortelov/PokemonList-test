@@ -28,17 +28,18 @@ const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
         <div className={styles.pokemonDetailsWrap}>
             <div className={styles.darkBackground} onClick={onClose}/>
             <div className={styles.detailsWrap}>
-                <div
-                    className={styles.headerWrap}
-                    onTouchStart={showBigPreview}
-                    onTouchEnd={hideBigPreview}
-                >
+                <div className={styles.headerWrap}>
                     <span className={styles.cross} onClick={onClose} />
+                    <div
+                        className={styles.previewWrap}
+                        onTouchStart={showBigPreview}
+                        onTouchEnd={hideBigPreview}
+                        onMouseOver={showBigPreview}
+                        onMouseLeave={hideBigPreview}
+                    >
                     {'sprites' in pokemon ? pokemon.sprites.front_default ? <img
                         src={'sprites' in pokemon ? pokemon.sprites.front_default : ''}
                         alt=''
-                        onMouseOver={showBigPreview}
-                        onMouseLeave={hideBigPreview}
                     /> : null : null}
                     {'sprites' in pokemon ? pokemon.sprites.back_default ? <img
                         src={'sprites' in pokemon ? pokemon.sprites.back_default : ''}
@@ -46,6 +47,7 @@ const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
                         onMouseOver={showBigPreview}
                         onMouseLeave={hideBigPreview}
                     /> : null : null}
+                    </div>
                 </div>
                 <h2 className={styles.title}>{'name' in info ? info.name.toUpperCase() : ''}</h2>
                 <div className={styles.paramsWrap}>
