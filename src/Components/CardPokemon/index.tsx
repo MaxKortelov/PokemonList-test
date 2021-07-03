@@ -36,6 +36,8 @@ const CardPokemon : FC<ICard> = ({info}) => {
     const [details, setDetails] = useState(false);
 
     useEffect(() => {
+        setPokemon({});
+        setLoading(true);
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         axios.get(info.url, {
