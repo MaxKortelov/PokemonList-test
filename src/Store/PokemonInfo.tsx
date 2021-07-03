@@ -1,6 +1,6 @@
 import {action, makeAutoObservable, observable} from 'mobx';
 import axios from 'axios';
-import {IInfo, IPokemonList, ITypeListPokemon} from '../Interfaces';
+import {IPokemonList, ITypeListPokemon} from '../Interfaces';
 
 class Pokemon{
     @observable pokemonList: IPokemonList | {} = {};
@@ -91,7 +91,7 @@ class Pokemon{
     }
     @action
     loadTypePokemon(name : string, value : string) {
-        this.loading = true;
+        this.toggleLoading(true);
         this.typeList.forEach(type => {
             if(type.name === name) {
                 axios.get(type.url)
@@ -105,26 +105,24 @@ class Pokemon{
                                 if ("results" in this.pokemonList) {
                                     this.pokemonList.results = pokemon;
                                 }
-                                this.isTypes = true;
+                                this.toggleIsTypes(true);
                             } else {
                                 if ("results" in this.pokemonList) {
-                                    const obj : {[key: string] : IInfo} | {} = {};
+                                    const obj : any = {};
                                     let arr = [...this.pokemonList.results, ...pokemon];
-                                    if('key' in obj) {
-                                        arr.forEach(el => obj[el['name']] = el);
-                                        this.pokemonList.results = Object.keys(obj).map(name =>  obj[name]);
-                                    }
+                                    arr.forEach(el => obj[el['name']] = el);
+                                    this.pokemonList.results = Object.keys(obj).map(name =>  obj[name]);
                                 }
                             }
                         }
                     })
                     .catch(err => console.log(err))
-                    .finally(() => {this.loading = false});
+                    .finally(() => this.toggleLoading(false));
             }
         })
     }
-
-
+    @action
+    toggleIsTypes = (boolean : boolean) => this.isTypes = boolean;
 }
 
 export default new Pokemon();

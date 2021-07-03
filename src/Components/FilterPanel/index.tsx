@@ -55,11 +55,16 @@ const FilterPanel : FC = observer(() => {
 
     const search = () => {
         if(ref.current <= 2) ref.current += 1;
-        if(ref.current > 2) {
-            if(value.length > 0) {
-                const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(value.toLowerCase())) || undefined;
-                store.addPokemon(searchList);
-            } else {store.addPokemon(null)}
+        if(!store.isTypes) {
+            if(ref.current > 2) {
+                if(value.length > 0) {
+                    const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(value.toLowerCase())) || undefined;
+                    store.addPokemon(searchList);
+                } else {store.addPokemon(null)}
+            }
+        } else {
+            store.nullifyTypePokemon();
+            typeName.forEach(name => store.loadTypePokemon(name, value))
         }
     };
 
@@ -100,12 +105,12 @@ const FilterPanel : FC = observer(() => {
     };
 
     useEffect(() => {
-        if(ref.current <= 2) ref.current += 1;
+        if(ref.current <= 2) ref.current += 2;
         if(ref.current > 2) {
             if(typeName.length > 0) {
                 store.nullifyTypePokemon();
-                typeName.forEach(name => store.loadTypePokemon(name, value))
-            } else {search()}
+                typeName.forEach(name => store.loadTypePokemon(name, value));
+            } else {store.toggleIsTypes(false); search()}
         }
     }, [typeName.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
