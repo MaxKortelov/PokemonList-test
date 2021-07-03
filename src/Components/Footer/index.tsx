@@ -9,7 +9,7 @@ const Footer : FC = observer(() => {
 
     useEffect(() => {
         store.setPage(0);
-    }, [store.isSearched, store.isTypes, store.chosenTypes.length, store.inputSearch, store.itemsPerPage]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [store.isSearched, store.isTypes, store.chosenTypes.length, store.inputSearch, store.itemsPerPage]); // eslint-disable-line
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         if(store.isSearched || store.isTypes) {

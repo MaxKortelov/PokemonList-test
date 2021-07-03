@@ -2,7 +2,6 @@ import React, {FC, useEffect, useState} from 'react';
 import {
     createStyles,
     makeStyles,
-    Theme,
     Card,
     CardActionArea,
     CardContent,
@@ -15,8 +14,9 @@ import styles from './CardPokemon.module.sass';
 import axios from 'axios';
 import {ICard, IPokemon} from '../../Interfaces';
 import PokemonDetails from '../PokemonDetails';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         root: {
             minWidth: '100%',
@@ -32,7 +32,7 @@ const CardPokemon : FC<ICard> = ({info}) => {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(true);
-    const [pokemon, setPokemon] = useState<IPokemon | {}>({});
+    const [pokemon, setPokemon] = useState<IPokemon | Record<string, never>>({});
     const [details, setDetails] = useState(false);
 
     useEffect(() => {
@@ -99,6 +99,10 @@ const CardPokemon : FC<ICard> = ({info}) => {
             /> : null}
         </>
     )
+}
+
+CardPokemon.propTypes = {
+    info: PropTypes.any
 }
 
 export default CardPokemon;

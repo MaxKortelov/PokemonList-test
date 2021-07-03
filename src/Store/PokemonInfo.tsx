@@ -3,21 +3,21 @@ import axios from 'axios';
 import {IPokemonList, ITypeListPokemon} from '../Interfaces';
 
 class Pokemon{
-    @observable pokemonList: IPokemonList | {} = {};
-    @observable entered: boolean = false;
-    @observable itemsPerPage: string = '20';
-    @observable loading: boolean = false;
-    @observable page: number = 0;
-    @observable fullListPokemon: [{ name: string; url: string; }] | [] = [];
-    @observable isSearched : boolean = false;
+    @observable pokemonList : IPokemonList | Record<string, never> = {};
+    @observable entered = false;
+    @observable itemsPerPage = '20';
+    @observable loading = false;
+    @observable page = 0;
+    @observable fullListPokemon : [{ name: string; url: string; }] | [] = [];
+    @observable isSearched = false;
     @observable typeList : Array<{name: string, url: string}> | [] = [];
-    @observable isTypes : boolean = false;
+    @observable isTypes = false;
     @observable chosenTypes : string[] = [];
-    @observable inputSearch : string = '';
+    @observable inputSearch = '';
 
     constructor() {
         makeAutoObservable(this)
-    };
+    }
 
     @action
     addPokemon(searched : [] | Array<{name: string; url: string}> | null) {
@@ -42,22 +42,22 @@ class Pokemon{
                     if(this.fullListPokemon.length === 0) this.getFullListNames();
                 });
         }
-    };
+    }
 
     @action
-    removePokemon() {this.pokemonList = {}};
+    removePokemon() {this.pokemonList = {}}
 
     @action
-    toggleEntered(boolean: boolean) {this.entered = boolean};
+    toggleEntered(boolean: boolean) {this.entered = boolean}
 
     @action
-    toggleLoading(boolean: boolean) {this.loading = boolean};
+    toggleLoading(boolean: boolean) {this.loading = boolean}
 
     @action
-    setItemsPerPage(value: string) {this.itemsPerPage = value};
+    setItemsPerPage(value: string) {this.itemsPerPage = value}
 
     @action
-    setPage(page: number) {this.page = page};
+    setPage(page: number) {this.page = page}
 
     @action
     getFullListNames() {
@@ -71,7 +71,7 @@ class Pokemon{
                 this.toggleLoading(false);
                 this.getTypeList();
             });
-    };
+    }
 
     @action
     getTypeList() {
@@ -110,8 +110,8 @@ class Pokemon{
                                 this.toggleIsTypes(true);
                             } else {
                                 if ("results" in this.pokemonList) {
-                                    const obj : any = {};
-                                    let arr = [...this.pokemonList.results, ...pokemon];
+                                    const obj : Record<string, {name: string, url: string}> = {};
+                                    const arr = [...this.pokemonList.results, ...pokemon];
                                     arr.forEach(el => obj[el['name']] = el);
                                     this.pokemonList.results = Object.keys(obj).map(name =>  obj[name]);
                                 }

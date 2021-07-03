@@ -78,7 +78,7 @@ const FilterPanel : FC = observer(() => {
 
     const debouncedValue = useDebounce<string>(store.inputSearch, 500);
 
-    useEffect(search, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(search, [debouncedValue]); // eslint-disable-line
 
     const handleInputChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         store.setInputSearch(event.target.value as string);
@@ -119,7 +119,7 @@ const FilterPanel : FC = observer(() => {
                 store.chosenTypes.forEach(name => store.loadTypePokemon(name, store.inputSearch));
             } else {store.toggleIsTypes(false); search()}
         }
-    }, [store.chosenTypes.length]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [store.chosenTypes.length]); // eslint-disable-line
 
     const [switcher, setSwitcher] = useState<boolean>(true);
     const toggleSwitcher = () => setSwitcher(!switcher);

@@ -2,6 +2,7 @@ import React, {FC, useState} from 'react';
 
 import styles from './PokemonDetails.module.sass';
 import {IPokemonDetails} from '../../Interfaces';
+import PropTypes from 'prop-types';
 
 const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
 
@@ -75,6 +76,12 @@ const PokemonDetails : FC<IPokemonDetails> = ({pokemon, info, close}) => {
                     /> : null}</div> : null}
         </div>
     )
+}
+
+PokemonDetails.propTypes = {
+    pokemon: PropTypes.any,
+    info: PropTypes.any,
+    close: PropTypes.any,
 }
 
 export default PokemonDetails;
