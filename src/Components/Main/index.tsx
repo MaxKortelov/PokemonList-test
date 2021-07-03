@@ -17,7 +17,7 @@ const Main : FC = observer(() => {
             {!store.entered ? <div
                 className={styles.enterButton}
                 onClick={getPokemon}
-            >Get Pokemon</div> : null}
+            >Get Pokemon List</div> : null}
             {store.entered ? <CardList /> : null}
         </div>
     )
