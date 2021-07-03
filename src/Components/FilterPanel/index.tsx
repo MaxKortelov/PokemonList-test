@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
     makeStyles,
@@ -17,6 +17,8 @@ import {
 import store from '../../Store/PokemonInfo';
 import styles from './FilterPanel.module.sass';
 import {useDebounce} from '../../Hooks';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -36,11 +38,18 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: '300px',
             width: '300px',
             padding: '5px 0 5px 10px',
+            [theme.breakpoints.down('sm')]: {
+                minWidth: '250px',
+                width: '250px',
+            },
+            [theme.breakpoints.down('xs')]: {
+                minWidth: '170px',
+                width: '170px',
+            },
         },
         formControl: {
             margin: theme.spacing(1),
             minWidth: 120,
-            width: 300,
             maxWidth: 300,
         },
     })
@@ -112,9 +121,16 @@ const FilterPanel : FC = observer(() => {
         }
     }, [store.chosenTypes.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const [switcher, setSwitcher] = useState<boolean>(true);
+    const toggleSwitcher = () => setSwitcher(!switcher);
+
     return (
         <div className={styles.filterPanelWrap}>
-            <div className={styles.itemsQuantityWrap}>
+            <div
+                className={styles.switchView}
+                onClick={toggleSwitcher}
+            ><ArrowDropDownCircleIcon /></div>
+            <div className={`${styles.itemsTypeWrap} ${switcher ? styles.hide : styles.show}`}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-mutiple-checkbox-label">Types</InputLabel>
                     <Select
@@ -131,15 +147,19 @@ const FilterPanel : FC = observer(() => {
                     </Select>
                 </FormControl>
             </div>
-            <TextField
-                InputProps={{ classes, disableUnderline: true }}
-                value={store.inputSearch}
-                placeholder='Search'
-                variant='standard'
-                size='small'
-                onChange={handleInputChange}
-            />
+            <div className={switcher ? styles.show : styles.hide}>
+                <TextField
+                    InputProps={{ classes, disableUnderline: true }}
+                    value={store.inputSearch}
+                    placeholder='Search'
+                    variant='standard'
+                    size='small'
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div className={styles.exitIcon} onClick={handleExitClick}><ExitToAppIcon /></div>
             <Button
+                className={styles.exitText}
                 variant='contained'
                 color='primary'
                 onClick={handleExitClick}
