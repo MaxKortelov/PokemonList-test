@@ -59,3 +59,7 @@ export interface IPokemonDetails {
     info : IInfo | {},
     close : (boolean: boolean) => void
 }
+
+export interface ITypeListPokemon {
+    pokemon : IInfo | {}
+}

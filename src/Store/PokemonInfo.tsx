@@ -1,6 +1,6 @@
 import {action, makeAutoObservable, observable} from 'mobx';
 import axios from 'axios';
-import { IPokemonList } from '../Interfaces';
+import {IInfo, IPokemonList, ITypeListPokemon} from '../Interfaces';
 
 class Pokemon{
     @observable pokemonList: IPokemonList | {} = {};
@@ -83,6 +83,48 @@ class Pokemon{
                 this.toggleLoading(false);
             });
     }
+    @action
+    nullifyTypePokemon(){
+        if ("results" in this.pokemonList) {
+            this.pokemonList.results = [];
+        }
+    }
+    @action
+    loadTypePokemon(name : string, value : string) {
+        this.loading = true;
+        this.typeList.forEach(type => {
+            if(type.name === name) {
+                axios.get(type.url)
+                    .then(res => {
+                        if(res.status === 200) {
+                            let pokemon : Array<{name: string, url: string}> | [] = [];
+                            res.data.pokemon.forEach((p : ITypeListPokemon) => {
+                                if("name" in p.pokemon && !p.pokemon.name.indexOf(value.toLowerCase())) pokemon = [...pokemon, p.pokemon];
+                            });
+                            if(!this.isTypes) {
+                                if ("results" in this.pokemonList) {
+                                    this.pokemonList.results = pokemon;
+                                }
+                                this.isTypes = true;
+                            } else {
+                                if ("results" in this.pokemonList) {
+                                    const obj : {[key: string] : IInfo} | {} = {};
+                                    let arr = [...this.pokemonList.results, ...pokemon];
+                                    if('key' in obj) {
+                                        arr.forEach(el => obj[el['name']] = el);
+                                        this.pokemonList.results = Object.keys(obj).map(name =>  obj[name]);
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => console.log(err))
+                    .finally(() => {this.loading = false});
+            }
+        })
+    }
+
+
 }
 
 export default new Pokemon();

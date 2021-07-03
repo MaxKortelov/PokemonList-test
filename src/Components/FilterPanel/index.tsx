@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
     makeStyles,
@@ -51,12 +51,16 @@ const FilterPanel : FC = observer(() => {
     const classes = useStyles();
 
     const [value, setValue] = useState('');
+    const ref = useRef(0);
 
     const search = () => {
-        if(value.length > 0) {
-            const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(value.toLowerCase())) || undefined;
-            store.addPokemon(searchList);
-        } else {store.addPokemon(null)}
+        if(ref.current <= 2) ref.current += 1;
+        if(ref.current > 2) {
+            if(value.length > 0) {
+                const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(value.toLowerCase())) || undefined;
+                store.addPokemon(searchList);
+            } else {store.addPokemon(null)}
+        }
     };
 
     const debouncedValue = useDebounce<string>(value, 500);
@@ -94,6 +98,16 @@ const FilterPanel : FC = observer(() => {
             },
         },
     };
+
+    useEffect(() => {
+        if(ref.current <= 2) ref.current += 1;
+        if(ref.current > 2) {
+            if(typeName.length > 0) {
+                store.nullifyTypePokemon();
+                typeName.forEach(name => store.loadTypePokemon(name, value))
+            } else {search()}
+        }
+    }, [typeName.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={styles.filterPanelWrap}>
