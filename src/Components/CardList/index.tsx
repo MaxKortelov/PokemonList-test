@@ -8,12 +8,17 @@ import CardPokemon from '../CardPokemon';
 const CardList : FC = observer(() => {
 
     const renderCards = () => {
-        return "results" in store.pokemonList ? store.pokemonList.results.map((pokemon, index) => {
+        const results = "results" in store.pokemonList
+            ? (store.isSearched || store.isTypes)
+                ? store.pokemonList.results.slice(store.page * Number(store.itemsPerPage), (store.page + 1) * Number(store.itemsPerPage))
+                : store.pokemonList.results
+            : [];
+        return results.map((pokemon, index) => {
             return <CardPokemon
                 info={pokemon}
                 key={index}
             />
-        }) : null;
+        });
     }
 
     return(

@@ -12,6 +12,8 @@ class Pokemon{
     @observable isSearched : boolean = false;
     @observable typeList : Array<{name: string, url: string}> | [] = [];
     @observable isTypes : boolean = false;
+    @observable chosenTypes : string[] = [];
+    @observable inputSearch : string = '';
 
     constructor() {
         makeAutoObservable(this)
@@ -123,6 +125,10 @@ class Pokemon{
     }
     @action
     toggleIsTypes = (boolean : boolean) => this.isTypes = boolean;
+    @action
+    setChosenTypes = (val : string[]) => this.chosenTypes = val;
+    @action
+    setInputSearch = (val : string) => this.inputSearch = val;
 }
 
 export default new Pokemon();

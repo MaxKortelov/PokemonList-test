@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react';
 import {
     makeStyles,
@@ -50,30 +50,29 @@ const FilterPanel : FC = observer(() => {
 
     const classes = useStyles();
 
-    const [value, setValue] = useState('');
     const ref = useRef(0);
 
     const search = () => {
         if(ref.current <= 2) ref.current += 1;
         if(!store.isTypes) {
             if(ref.current > 2) {
-                if(value.length > 0) {
-                    const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(value.toLowerCase())) || undefined;
+                if(store.inputSearch.length > 0) {
+                    const searchList = store.fullListPokemon.filter(el => !el.name.indexOf(store.inputSearch.toLowerCase())) || undefined;
                     store.addPokemon(searchList);
                 } else {store.addPokemon(null)}
             }
         } else {
             store.nullifyTypePokemon();
-            typeName.forEach(name => store.loadTypePokemon(name, value))
+            store.chosenTypes.forEach(name => store.loadTypePokemon(name, store.inputSearch))
         }
     };
 
-    const debouncedValue = useDebounce<string>(value, 500);
+    const debouncedValue = useDebounce<string>(store.inputSearch, 500);
 
     useEffect(search, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleInputChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setValue(event.target.value as string);
+        store.setInputSearch(event.target.value as string);
     };
 
     const handleExitClick = () => {
@@ -81,17 +80,16 @@ const FilterPanel : FC = observer(() => {
         store.removePokemon();
     };
 
-    const [typeName, setTypeName] = useState<string[]>([]);
     const renderTypes = () => (
         store.typeList.map((type, index) => (
             <MenuItem key={index} value={type.name}>
-                <Checkbox checked={typeName.indexOf(type.name) > -1}/>
+                <Checkbox checked={store.chosenTypes.indexOf(type.name) > -1}/>
                 <ListItemText primary={type.name.toUpperCase()}/>
             </MenuItem>
         ))
     );
     const handleTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setTypeName(event.target.value as string[]);
+        store.setChosenTypes(event.target.value as string[]);
     };
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -107,12 +105,12 @@ const FilterPanel : FC = observer(() => {
     useEffect(() => {
         if(ref.current <= 2) ref.current += 2;
         if(ref.current > 2) {
-            if(typeName.length > 0) {
+            if(store.chosenTypes.length > 0) {
                 store.nullifyTypePokemon();
-                typeName.forEach(name => store.loadTypePokemon(name, value));
+                store.chosenTypes.forEach(name => store.loadTypePokemon(name, store.inputSearch));
             } else {store.toggleIsTypes(false); search()}
         }
-    }, [typeName.length]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [store.chosenTypes.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={styles.filterPanelWrap}>
@@ -123,7 +121,7 @@ const FilterPanel : FC = observer(() => {
                         labelId="demo-mutiple-checkbox-label"
                         id="demo-mutiple-checkbox"
                         multiple
-                        value={typeName}
+                        value={store.chosenTypes}
                         onChange={handleTypeChange}
                         input={<Input />}
                         renderValue={(selected) => (selected as string[]).join(', ')}
@@ -135,7 +133,7 @@ const FilterPanel : FC = observer(() => {
             </div>
             <TextField
                 InputProps={{ classes, disableUnderline: true }}
-                value={value}
+                value={store.inputSearch}
                 placeholder='Search'
                 variant='standard'
                 size='small'
